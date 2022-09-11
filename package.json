@@ -1,0 +1,32 @@
+{
+  "name": "custom-video",
+  "version": "0.1.0",
+  "description": "",
+  "repository": "",
+  "private": true,
+  "scripts": {
+    "start": "NODE_ENV=development rollup -c -w & node node_modules/local-https ./dist",
+    "build": "NODE_ENV=development rollup -c -w",
+    "buildprod": "NODE_ENV=production rollup -c"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@rollup/plugin-json": "^4.1.0",
+    "local-https": "git+https://gitlab.com/LeanConvert/local-https.git",
+    "rollup": "^1.6.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.2.1",
+    "rollup-plugin-html": "^0.2.1",
+    "rollup-plugin-insert": "^0.2.0",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-notify": "^1.1.0",
+    "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-prettier": "^0.6.0",
+    "rollup-plugin-terser": "^4.0.4",
+    "styles": "git+https://gitlab.com/LeanConvert/styles.git"
+  }
+}

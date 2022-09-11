@@ -5,10 +5,11 @@ import { addVolumeEventListeners } from './handlers/volume.js';
 import { addPlayPauseEventListeners } from './handlers/playpause.js';
 import { setProgressBar } from './handlers/progress.js';
 import { setTimelines } from './handlers/timelines.js';
-import { isMobile } from './utils.js';
 
-export const createCustomVideo = (config) => {
+export const createCustomVideo = (config, element) => {
   if (!isVideoSupported()) return '';
+
+  element.insertAdjacentHTML('afterbegin', videohtml.replace('VIDEO_SRC', config.properties.src));
 
   const videoContainer = document.getElementById('videoContainer');
   const video = document.getElementById('video');
@@ -27,7 +28,6 @@ export const createCustomVideo = (config) => {
   }
 
   customConfig(config);
-  return videohtml.replace('VIDEO_SRC', config.properties.src);
 };
 
 function isVideoSupported() {
