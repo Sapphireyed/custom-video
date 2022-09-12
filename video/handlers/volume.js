@@ -1,6 +1,8 @@
+//TODO
+
+// remember volume settings when toggling
 export const addVolumeEventListeners = (video) => {
   const volumeProgress = document.getElementById('progress-volume-bar');
-  console.log(volumeProgress)
   let changingVolume = false;
 
   volumeProgress.addEventListener('mousedown', () => {
@@ -11,6 +13,11 @@ export const addVolumeEventListeners = (video) => {
     changingVolume = false;
   });
 
+  handleVolumeProgressBar(video, volumeProgress, event, changingVolume);
+  handleMute(video);
+};
+
+function handleVolumeProgressBar(video, volumeProgress, event, changingVolume) {
   volumeProgress.addEventListener('mousemove', (event) => {
     handleVolumeEventListeners(video, volumeProgress, event, changingVolume);
   });
@@ -19,8 +26,10 @@ export const addVolumeEventListeners = (video) => {
     handleVolumeEventListeners(video, volumeProgress, event);
   });
 
-  handleMute(video);
-};
+  volumeProgress.addEventListener('mouseleave', () => {
+    volumeProgress.classList.toggle('hidden')
+  })
+}
 
 function handleVolumeEventListeners(video, volumeProgress, event, changingVolume) {
   const volumeeMesurements = volumeProgress.getBoundingClientRect();
@@ -47,6 +56,7 @@ function handleVolume(video, volumeProgress, event) {
   video.volume = 0.9 - percentPosition / 100 < 0 ? 0 : (0.9 - percentPosition / 100) + 0.19;
 
   sessionStorage.setItem('video-volume', video.volume);
+  sessionStorage.setItem('video-volume-dot', dotPosition);
 
   videoUnmuted(video, mute);
   if (video.volume < 0.1) {
@@ -65,11 +75,31 @@ function handleMute(video) {
   const mute = document.getElementById('mute');
 
   mute.addEventListener('click', function() {
-    video.volume = sessionStorage.getItem('video-volume');
+    const settingsContainer = document.getElementById('settings-container');
+    settingsContainer.classList.add('hidden');
+
     video.muted = !video.muted;
+    video.volume = sessionStorage.getItem('video-volume') || video.muted ? 0 : 1;
+
     setProgressStyles(video);
     toggleMuteIcon(mute);
   });
+
+  const progressDiv = document.querySelector('#progress-volume-bar');
+  mute.addEventListener('mouseenter', () => {
+    progressDiv.classList.remove('hidden');
+  })
+
+  mute.addEventListener('mouseleave', () => {
+    progressDiv.classList.add('hidden');
+  })
+  progressDiv.addEventListener('mouseenter', () => {
+    progressDiv.classList.remove('hidden');
+  })
+
+  progressDiv.addEventListener('mouseleave', () => {
+    progressDiv.classList.add('hidden');
+  })
 }
 
 function toggleMuteIcon(mute) {
@@ -78,10 +108,8 @@ function toggleMuteIcon(mute) {
 }
 
 function setProgressStyles(video) {
-  const progressDiv = document.querySelector('#progress-volume-bar');
   const progress = document.querySelector('#progress-volume-bar progress');
-  const progressDotPosition = video.muted ? '90%' : sessionStorage.getItem('video-volume');
+  const progressDotPosition = video.muted ? '90%' : sessionStorage.getItem('video-volume-dot') + '%';
 
   progress.style.setProperty('--progress-top', progressDotPosition);
-  progressDiv.classList.toggle('hidden');
 }

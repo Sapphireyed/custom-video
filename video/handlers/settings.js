@@ -10,10 +10,12 @@ export const addSettingsEventListeners = (videoContainer) => {
 
 function toggleSettingsContainerOnClick() {
   const settingsContainer = document.getElementById('settings-container');
+  const volumeContainer = document.getElementById('progress-volume-bar');
   const settingsButton = document.querySelector('#settings svg')
 
   settingsButton.addEventListener('click', () => {
     settingsContainer.classList.toggle('hidden');
+    volumeContainer.classList.add('hidden');
   });
 }
 

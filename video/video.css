@@ -65,10 +65,16 @@ figure#video-container video {
   font-size: 12px;
   padding: 0 10px;
   margin-top: -4px;
+  z-index:2;
 }
 .controls li {
 	float:left;
 	margin-left:0.3%;
+  cursor: pointer;
+}
+
+.controls li {
+
 }
 
 .controls button, .controls time {
@@ -100,6 +106,7 @@ svg {
   background-color: transparent;
   border: none;
   color: var(--fontColor);
+  cursor:pointer;
 }
 .controls progress {
 	display:block;
@@ -142,9 +149,10 @@ progress::-webkit-progress-value {
   position: absolute;
   width: 30px;
   height: 100px;
-  top: -105px;
+  bottom: 20.5px;
   padding: 0;
   background: var(--bgSecondary);
+  z-index:1;
 }
 
 .mute progress {
