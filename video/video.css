@@ -142,7 +142,7 @@ progress::-webkit-progress-value {
   position: absolute;
   width: 30px;
   height: 100px;
-  top: -100px;
+  top: -105px;
   padding: 0;
   background: var(--bgSecondary);
 }
