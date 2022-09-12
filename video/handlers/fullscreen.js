@@ -2,7 +2,7 @@ import { isMobile } from '../utils';
 
 /* eslint-disable no-param-reassign */
 export const addFullScreenHandlers = (videoContainer, video) => {
-  var fullscreen = document.getElementById('fs');
+  var fullscreen = document.getElementById('fullscreen');
 
   fullscreen.addEventListener('click', function() {
     handleFullscreen(videoContainer);
@@ -17,7 +17,7 @@ export const addFullScreenHandlers = (videoContainer, video) => {
 
 function handleFullscreen(videoContainer) {
   let video = videoContainer.querySelector('video');
-  const controls = videoContainer.querySelector('ul');
+  const controls = videoContainer.querySelector('#video-controls');
 
   if (isFullScreen(videoContainer, video)) {
     if (document.exitFullscreen) document.exitFullscreen();
@@ -37,6 +37,7 @@ function handleFullscreen(videoContainer) {
     setFullscreenData(videoContainer, true);
     controls.classList.add('hidden');
     showControlsIfActive(controls);
+    hideControlsOnMouseAway(controls)
   }
 }
 
@@ -59,7 +60,7 @@ function showControlsIfActive(controls) {
 function hideControlsIfIdle(controls, idleTimer) {
   const checkIfIdle = setInterval(() => {
     idleTimer++;
-    if (idleTimer >= 6) {
+    if (idleTimer >= 4) {
       controls.classList.add('hidden');
       clearInterval(checkIfIdle);
     }
@@ -70,4 +71,13 @@ function hideControlsIfIdle(controls, idleTimer) {
   }, true);
 
   return checkIfIdle;
+}
+
+function hideControlsOnMouseAway(controls) {
+  let videoContainer = document.querySelector('#videoContainer');
+
+  videoContainer.addEventListener('mouseleave', () => {
+    console.log('fsdgfsd')
+    controls.classList.add('hidden');
+  },);
 }

@@ -1,5 +1,6 @@
 export const addVolumeEventListeners = (video) => {
   const volumeProgress = document.getElementById('progress-volume-bar');
+  console.log(volumeProgress)
   let changingVolume = false;
 
   volumeProgress.addEventListener('mousedown', () => {
@@ -40,9 +41,10 @@ function handleVolume(video, volumeProgress, event) {
   const pos = event.y - volumeProgress.getBoundingClientRect().top;
   const volumeeMesurements = volumeProgress.getBoundingClientRect();
   const percentPosition = pos / volumeeMesurements.height * 100;
+  const dotPosition = percentPosition > 90 ? '90' : percentPosition
 
-  volumeProgress.querySelector('progress').style.setProperty('--progress-top', percentPosition + '%');
-  video.volume = 0.9 - percentPosition / 100;
+  volumeProgress.querySelector('progress').style.setProperty('--progress-top', dotPosition + '%');
+  video.volume = 0.9 - percentPosition / 100 < 0 ? 0 : (0.9 - percentPosition / 100) + 0.19;
 
   sessionStorage.setItem('video-volume', video.volume);
 
@@ -78,7 +80,7 @@ function toggleMuteIcon(mute) {
 function setProgressStyles(video) {
   const progressDiv = document.querySelector('#progress-volume-bar');
   const progress = document.querySelector('#progress-volume-bar progress');
-  const progressDotPosition = video.muted ? '90%' : '10';
+  const progressDotPosition = video.muted ? '90%' : sessionStorage.getItem('video-volume');
 
   progress.style.setProperty('--progress-top', progressDotPosition);
   progressDiv.classList.toggle('hidden');
